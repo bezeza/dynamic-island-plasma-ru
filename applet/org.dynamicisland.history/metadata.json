@@ -7,6 +7,13 @@
         "Description[de]": "Zeigt die Benachrichtigungen, die die Insel schon weggeräumt hat",
         "Description[zh_CN]": "显示灵动岛已经收起的通知",
         "Description[ja]": "アイランドが消した通知を表示します",
+        "Authors": [
+            {
+                "Name": "Teodor Gross",
+                "Email": "36233469+teodorgross@users.noreply.github.com"
+            }
+        ],
+        "Website": "https://github.com/teodorgross/Dynamic-Island-Plasma-Wayland",
         "Category": "System Information",
         "Icon": "notifications",
         "License": "MIT",
