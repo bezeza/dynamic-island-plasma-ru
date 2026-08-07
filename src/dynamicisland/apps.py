@@ -137,7 +137,7 @@ def index() -> list[_Entry]:
 
 
 # -- matching -----------------------------------------------------------
-def _fold(text: str) -> str:
+def fold(text: str) -> str:
     """Lower case, ASCII letters and digits only.
 
     The same folding runs inside the KWin script, where it is a regular
@@ -169,22 +169,22 @@ def desktop_file(entry: str) -> str | None:
         if os.path.exists(path):
             return path
 
-    folded = _fold(entry)
+    folded = fold(entry)
     if not folded:
         return None
     # "org.mozilla.firefox" is as likely to be spelled "firefox".
-    tail = _fold(entry.rsplit(".", 1)[-1])
+    tail = fold(entry.rsplit(".", 1)[-1])
 
     loose: str | None = None
     for record in index():
-        stem = _fold(record.stem)
+        stem = fold(record.stem)
         if stem == folded or stem == tail:
             return record.path
-        if _fold(record.stem.rsplit(".", 1)[-1]) in (folded, tail):
+        if fold(record.stem.rsplit(".", 1)[-1]) in (folded, tail):
             return record.path
-        if record.name and _fold(record.name) == folded:
+        if record.name and fold(record.name) == folded:
             return record.path
-        if record.wmclass and _fold(record.wmclass) == folded:
+        if record.wmclass and fold(record.wmclass) == folded:
             return record.path
         # Last resort: spotify against spotify-launcher.desktop. Kept until
         # the whole index has been searched — an exact hit further down wins.
@@ -193,7 +193,7 @@ def desktop_file(entry: str) -> str | None:
     return loose
 
 
-def _needles(entry: str, app_name: str = "") -> list[str]:
+def needles(entry: str, app_name: str = "") -> list[str]:
     """Everything a window of this application might call itself.
 
     KWin knows a window by its desktop file name and by the two X11-style
@@ -227,7 +227,7 @@ def _needles(entry: str, app_name: str = "") -> list[str]:
 
     needles: list[str] = []
     for candidate in candidates:
-        folded = _fold(candidate)
+        folded = fold(candidate)
         if len(folded) >= _MIN_NEEDLE and folded not in needles:
             needles.append(folded)
     return needles
@@ -308,19 +308,19 @@ def show(entry: str, app_name: str = "") -> bool:
     Returns False only when we could neither name the application nor find a
     window for it — the one case where a click genuinely has nothing to do.
     """
-    needles = _needles(entry, app_name)
+    wanted = needles(entry, app_name)
     fallback = desktop_file(entry) or desktop_file(app_name) or ""
     # Printed rather than only traced: when a click opens the wrong thing this
     # line and the one the KWin script sends back are the whole story.
     print(
         f"[dynamic-island] open {entry or app_name!r}: looking for "
-        f"{needles}, would start {os.path.basename(fallback) or 'nothing'}"
+        f"{wanted}, would start {os.path.basename(fallback) or 'nothing'}"
     )
 
-    if not needles:
+    if not wanted:
         return False
 
-    if _raise_window(needles, fallback):
+    if _raise_window(wanted, fallback):
         return True
 
     # KWin is not answering (or is not KWin at all); starting is all that is
@@ -337,28 +337,58 @@ def _raise_window(needles: list[str], fallback: str) -> bool:
         "path": _OBJECT_PATH,
         "interface": _ISLAND_INTERFACE,
     }
+    return run_script(source)
 
-    handle, path = tempfile.mkstemp(prefix="dynamic-island-raise-", suffix=".js")
-    name = os.path.basename(path)
+
+def run_script(source: str, name: str = "", keep: bool = False) -> bool:
+    """Hand a script to KWin and run it. False means KWin never ran it.
+
+    A one-shot needs no ``name``: the temp file's basename serves as one, which
+    keeps two scripts run at once apart, and the script is unloaded again the
+    moment it ran.  ``keep=True`` is for a watcher that stays resident and
+    keeps calling home.  Such a script gets a fixed name — a leftover under
+    that name from a crashed run is replaced, not joined — and its file is not
+    deleted, because nothing says when the compositor is done reading it.  It
+    still comes from mkstemp: a fixed, guessable path in a shared /tmp is an
+    invitation to plant a link there and have KWin run somebody else's script.
+    """
+    folder = None
+    if keep:
+        # Kept files go to the runtime directory: per user, wiped at logout,
+        # so restarts cannot pile anything up anywhere permanent.
+        folder = os.environ.get("XDG_RUNTIME_DIR") or None
+    handle, path = tempfile.mkstemp(
+        prefix=f"{name or 'dynamic-island'}-", suffix=".js", dir=folder
+    )
+    plugin = name or os.path.basename(path)
     try:
         with os.fdopen(handle, "w", encoding="utf-8") as script:
             script.write(source)
-        reply = _kwin("loadScript", path, name)
+        if name:
+            unload_script(plugin)
+        reply = _kwin("loadScript", path, plugin)
         if reply is None:
             return False
         # loadScript answers with the id the script object is registered under.
         identifier = reply.strip().strip("()").split(",")[0].strip()
         ran = _call(f"/Scripting/Script{identifier}", "org.kde.kwin.Script", "run")
-        _kwin("unloadScript", name)
+        if not keep:
+            unload_script(plugin)
         return ran is not None
     except OSError as error:
-        print(f"[dynamic-island] could not raise a window: {error}")
+        print(f"[dynamic-island] could not run a KWin script: {error}")
         return False
     finally:
-        try:
-            os.unlink(path)
-        except OSError:
-            pass
+        if not keep:
+            try:
+                os.unlink(path)
+            except OSError:
+                pass
+
+
+def unload_script(name: str) -> None:
+    """Take a loaded script out of KWin again."""
+    _kwin("unloadScript", name)
 
 
 def _kwin(member: str, *arguments: str) -> str | None:

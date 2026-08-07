@@ -109,6 +109,12 @@ KCM.SimpleKCM {
         }
 
         Toggle {
+            key: "mediaHideWhenFocused"
+            fallback: true
+            text: i18n("…but not while the player's own window has the focus")
+        }
+
+        Toggle {
             key: "soundEnabled"
             fallback: true
             text: i18n("Play the sounds applications ask for")

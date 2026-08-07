@@ -337,3 +337,6 @@ msgstr ""
 
 msgid "AMOLED is true black, so on an OLED panel those pixels are off. Dark is a grey body for panels where black smears; Light is dark type on white; the last one takes the desktop's own colours."
 msgstr ""
+
+msgid "…but not while the player's own window has the focus"
+msgstr ""

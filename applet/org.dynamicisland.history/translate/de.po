@@ -336,3 +336,6 @@ msgstr "Dem Farbschema folgen"
 
 msgid "AMOLED is true black, so on an OLED panel those pixels are off. Dark is a grey body for panels where black smears; Light is dark type on white; the last one takes the desktop's own colours."
 msgstr "AMOLED ist echtes Schwarz — auf einem OLED-Panel sind diese Pixel damit aus. Dunkel ist ein grauer Körper für Panels, auf denen Schwarz schmiert; Hell ist dunkle Schrift auf Weiß; das letzte übernimmt die Farben der Arbeitsfläche."
+
+msgid "…but not while the player's own window has the focus"
+msgstr "…aber nicht, solange das Fenster des Players selbst den Fokus hat"

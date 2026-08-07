@@ -125,6 +125,7 @@ class IslandController(QObject):
         self._job_ids: dict[str, int] = {}
         self._next_job_id = JOB_ID_BASE
         self._media = None
+        self._focus = None
         self._sources = None
         self._track = None
         self._cover_image = QImage()
@@ -180,9 +181,49 @@ class IslandController(QObject):
         if track is None:
             self._on_media_gone()
 
+    def attach_focus(self, watcher) -> None:
+        """Keep the track banner away while the player itself is in front.
+
+        Whoever watches the video in the browser or sits in Spotify sees the
+        track change right there; the card would only repeat it.  The banner
+        is for music coming from somewhere in the back.
+        """
+        self._focus = watcher
+        watcher.changed.connect(self._on_focus_moved)
+
+    def _on_focus_moved(self) -> None:
+        # Walking over to the player is the strongest "seen it" there is: the
+        # banner now doubles the window in front of it, so it leaves.
+        if self._model.row_of(MEDIA_ID) >= 0 and self._player_in_front():
+            self._close(MEDIA_ID, CLOSED_EXPIRED)
+
+    def _player_in_front(self) -> bool:
+        """Whether the window the music comes from has the focus."""
+        if self._focus is None or self._track is None:
+            return False
+        if not self._config.get("mediaHideWhenFocused"):
+            return False
+        return self._focus.is_active(
+            apps.needles(self._track.desktop_entry, self._track.identity)
+        )
+
     def _on_track(self, track) -> None:
         self._track = track
         self._remember_cover(track)
+        if self._player_in_front():
+            # No card — but the track is taken on all the same, so the volume
+            # display keeps drawing what is actually playing.  Said out loud
+            # for the same reason a suppression is: a banner that never came
+            # is otherwise indistinguishable from one that was never sent.
+            print(
+                f"[dynamic-island] holding the track banner back: "
+                f"{track.identity or track.bus_name} has the focus"
+            )
+            # A card still up belongs to the previous track, possibly another
+            # player's — and its buttons would steer this one now. Down it goes.
+            if self._model.row_of(MEDIA_ID) >= 0:
+                self._close(MEDIA_ID, CLOSED_EXPIRED)
+            return
         actions = self._media_actions()
         subtitle = " — ".join(part for part in (track.artist, track.album) if part)
 

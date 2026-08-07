@@ -172,6 +172,18 @@ class _Adaptor(dbus.service.Object):
         """The KWin script reporting which window it brought forward."""
         print(f"[dynamic-island] raised {window}")
 
+    @dbus.service.method(ISLAND_INTERFACE, in_signature="sss", out_signature="")
+    def Activated(self, desktop_file, resource_class, resource_name) -> None:
+        """The KWin focus watcher reporting which window is in front now.
+
+        See :mod:`dynamicisland.focus` — this is how the island knows to keep
+        the track banner away while the player itself is being looked at.
+        """
+        if self._service.activated_handler is not None:
+            self._service.activated_handler(
+                str(desktop_file), str(resource_class), str(resource_name)
+            )
+
     @dbus.service.method(ISLAND_INTERFACE, in_signature="", out_signature="s")
     def GetConfig(self) -> str:
         """The whole configuration as JSON — the applet's settings read it."""
@@ -262,6 +274,8 @@ class NotificationService(QObject):
     config_handler = None
     #: Called with a dict of settings the applet wants written
     set_config_handler = None
+    #: Called with the active window's three names whenever the focus moves
+    activated_handler = None
 
     def __init__(self, parent: QObject | None = None, claim: bool = True) -> None:
         super().__init__(parent)
@@ -334,6 +348,11 @@ class NotificationService(QObject):
     @property
     def owns_name(self) -> bool:
         return self._owned
+
+    @property
+    def unique_name(self) -> str:
+        """Our connection's own bus address — good even while queued."""
+        return str(self._bus.get_unique_name()) if self._bus is not None else ""
 
     # -- incoming calls -------------------------------------------------
     def handle_notify(

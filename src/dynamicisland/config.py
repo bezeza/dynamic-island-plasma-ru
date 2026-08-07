@@ -95,6 +95,10 @@ DEFAULTS: dict[str, Any] = {
     # Show what starts playing, with previous/play/next. Listening only: the
     # Plasma media applet is untouched either way.
     "showMedia": True,
+    # ...but not while the player's own window has the focus: whoever watches
+    # the video or sits in Spotify sees the track change right there. The
+    # banner is for music coming from somewhere in the back.
+    "mediaHideWhenFocused": True,
     "mediaTimeout": 5000,
 
     # --- sound ---------------------------------------------------------

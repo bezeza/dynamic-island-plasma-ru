@@ -24,6 +24,7 @@ from . import __version__, glibpump  # noqa: E402
 from .artwork import ArtworkProvider, ThemeIconProvider  # noqa: E402
 from .config import Config  # noqa: E402
 from .controller import IslandController  # noqa: E402
+from .focus import FocusWatcher  # noqa: E402
 from .media import MediaWatcher  # noqa: E402
 from .model import NotificationModel  # noqa: E402
 from .osd import OsdWatcher  # noqa: E402
@@ -181,6 +182,12 @@ def main(argv: list[str] | None = None) -> int:
     osd = OsdWatcher(application, claim=bool(config.get("showOsd")))
     media = MediaWatcher(application, claim=bool(config.get("showMedia")))
 
+    # The compositor reports who has the focus, so the track banner can stay
+    # away while the player's own window is in front. Only worth loading when
+    # the media watcher is on — it is the one thing that asks.
+    focus = FocusWatcher(service, application, claim=media.watching)
+    application.aboutToQuit.connect(focus.stop)
+
     # The settings live in the applet's own configuration dialog, which is
     # inside plasmashell — these two are how it reads and writes ours.
     service.config_handler = config.as_json
@@ -192,6 +199,7 @@ def main(argv: list[str] | None = None) -> int:
     controller.attach_jobs(jobs)
     controller.attach_osd(osd)
     controller.attach_media(media)
+    controller.attach_focus(focus)
 
     # Feeds, endpoints and the webhook server. They are started after the
     # controller is wired up so the first card has somewhere to land, and
