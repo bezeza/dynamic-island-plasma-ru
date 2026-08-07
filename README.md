@@ -1,5 +1,10 @@
 # Dynamic Island for KDE Plasma on Wayland
 
+> **How this was built.** A large part of this code was written with
+> [Claude](https://claude.com/claude-code), and it has been reviewed by the
+> author. The idea, the design decisions and the testing on real hardware are
+> mine. Saying so up front seems more useful than letting you find out.
+
 A pill that grows out of the top edge of the screen, stretches into a card to
 show you a notification, and shrinks back into the bezel when it is done —
 built for KDE Plasma 6 on Wayland. Black enough for an OLED panel by default,
