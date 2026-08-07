@@ -21,6 +21,7 @@ from PySide6.QtCore import QObject, Qt, Signal
 from PySide6.QtGui import QImage
 
 from . import apps
+from .model import LINK_HINT
 
 DATA_DIR = os.path.join(
     os.environ.get("XDG_DATA_HOME") or os.path.expanduser("~/.local/share"),
@@ -108,6 +109,11 @@ class HistoryStore(QObject):
             # found, the raw entry is still the best thing to match a window
             # against, and the applet has nothing else to offer.
             "desktopEntry": notification.desktop_entry,
+            # A feed entry or a webhook carries the page its click opens; a
+            # history row without it could only hunt for a window of "heise
+            # online", which is nothing. http(s) only — the hint travels over
+            # the bus, and a stored click must never become a command.
+            "url": self._link(notification),
         }
         self._entries.insert(0, entry)
         self._trim()
@@ -126,6 +132,11 @@ class HistoryStore(QObject):
         self.changed.emit()
 
     # -- helpers ----------------------------------------------------------
+    @staticmethod
+    def _link(notification) -> str:
+        url = str(notification.hints.get(LINK_HINT, "") or "")
+        return url if url.startswith(("http://", "https://")) else ""
+
     def _trim(self) -> None:
         while len(self._entries) > self._limit:
             self._drop_icon(self._entries.pop())

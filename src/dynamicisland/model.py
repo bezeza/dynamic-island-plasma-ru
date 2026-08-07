@@ -40,6 +40,11 @@ MEDIA_HINT = "x-dynamic-island-media"
 #: itself, and the volume display while something is on.
 MEDIA_INFO_HINT = "x-dynamic-island-media-info"
 
+#: The link behind a card whose click opens a page — a feed entry, a webhook
+#: with a url. Set so the history can keep it: the buttons die with the card,
+#: but the article is still worth a click a day later.
+LINK_HINT = "x-dynamic-island-link"
+
 
 @dataclass
 class Notification:

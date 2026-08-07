@@ -680,6 +680,172 @@ def test_hardened() -> None:
     _ = application
 
 
+def test_media_focus() -> None:
+    """The track banner stays away while the player itself is in front.
+
+    Watching the video in the browser or sitting in Spotify means the track
+    change is already on screen — the card would only repeat it.  The focus
+    watcher is driven directly, the way KWin's callback would.
+    """
+    sys.path.insert(0, os.path.join(ROOT, "src"))
+    os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+    from PySide6.QtGui import QGuiApplication
+
+    from dynamicisland import artwork
+    from dynamicisland.config import Config
+    from dynamicisland.controller import IslandController, MEDIA_ID
+    from dynamicisland.focus import FocusWatcher
+    from dynamicisland.media import Track
+    from dynamicisland.model import NotificationModel
+    from dynamicisland.server import NotificationService
+
+    application = QGuiApplication.instance() or QGuiApplication([])
+
+    model = NotificationModel()
+    controller = IslandController(
+        Config(), model, NotificationService(claim=False), artwork.ArtworkProvider()
+    )
+    focus = FocusWatcher(None, claim=False)
+    controller.attach_focus(focus)
+
+    def track(title: str) -> Track:
+        made = Track("org.mpris.MediaPlayer2.selftest")
+        made.identity = "Selftest"
+        made.desktop_entry = "firefox"
+        made.title = title
+        made.artist = "Artist"
+        made.playing = True
+        return made
+
+    # The browser plays and the browser is in front: no card — but the track
+    # is taken on, because the volume display draws whatever plays.
+    focus._on_activated("org.mozilla.firefox", "firefox", "Navigator")
+    controller._on_track(track("First"))
+    check("a focused player gets no card", model.get(MEDIA_ID) is None)
+    check(
+        "the track is adopted anyway",
+        controller._media_payload().get("title") == "First",
+    )
+
+    # Same player, another window in front: the card shows, buttons and all.
+    focus._on_activated("org.kde.konsole", "konsole", "konsole")
+    controller._on_track(track("Second"))
+    card = model.get(MEDIA_ID)
+    check(
+        "an unfocused player gets its card",
+        card is not None
+        and card.summary == "Second"
+        and [action["key"] for action in card.actions]
+        == ["media-previous", "media-playpause", "media-next"],
+    )
+
+    # Walking over to the player takes the card down again.
+    focus._on_activated("firefox", "firefox", "Navigator")
+    check("focusing the player retracts the card", model.get(MEDIA_ID) is None)
+
+    # A held-back change also sweeps away a card left by another player:
+    # stale, and its buttons would steer the new player now.
+    def other(title: str) -> Track:
+        made = Track("org.mpris.MediaPlayer2.other")
+        made.identity = "Other"
+        made.desktop_entry = "spotify"
+        made.title = title
+        made.playing = True
+        return made
+
+    focus._on_activated("org.kde.konsole", "konsole", "konsole")
+    controller._on_track(other("Background Song"))
+    focus._on_activated("org.mozilla.firefox", "firefox", "Navigator")
+    check(
+        "another player's card survives the focus move",
+        model.get(MEDIA_ID) is not None,
+    )
+    controller._on_track(track("Video"))
+    check(
+        "a held-back change sweeps the stale card away",
+        model.get(MEDIA_ID) is None,
+    )
+
+    # And with the switch off, focus makes no difference.
+    controller._config._data["mediaHideWhenFocused"] = False
+    controller._on_track(track("Third"))
+    check(
+        "the switch turns the holding back off",
+        model.get(MEDIA_ID) is not None,
+    )
+    controller.dismiss(MEDIA_ID)
+    _ = application
+
+
+def test_history_link() -> None:
+    """A feed entry's link survives into the history, a command never does.
+
+    The buttons of a source card die with the card, but the article behind a
+    feed entry is exactly what somebody opens from the applet a day later —
+    so the link rides along as a hint and the history writes it out.
+    """
+    sys.path.insert(0, os.path.join(ROOT, "src"))
+    os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+    import tempfile
+
+    from PySide6.QtGui import QGuiApplication
+
+    from dynamicisland import history as history_module
+    from dynamicisland.config import Config
+    from dynamicisland.model import LINK_HINT, Notification
+    from dynamicisland.sources import SourceManager
+    from dynamicisland.sources.payload import Action, Item
+
+    application = QGuiApplication.instance() or QGuiApplication([])
+
+    manager = SourceManager(Config())
+    sent: list = []
+    manager.notify.connect(lambda *arguments: sent.append(arguments))
+
+    class FakeSource:
+        name = "fixture"
+        app_name = "Fixture"
+
+    manager._show(
+        FakeSource(),
+        Item(
+            key="1",
+            summary="Something happened",
+            default=Action(
+                key="default", label="Open", kind="url",
+                url="https://example.com/1",
+            ),
+        ),
+    )
+    check(
+        "a source card carries its link",
+        bool(sent) and sent[0][6].get(LINK_HINT) == "https://example.com/1",
+    )
+
+    # The history writes the link out — and refuses anything but http(s):
+    # the hint travels over the bus, and a stored click must never become a
+    # file or a command.
+    folder = tempfile.mkdtemp(prefix="dynamic-island-selftest-")
+    history_module.DATA_DIR = folder
+    history_module.HISTORY_PATH = os.path.join(folder, "history.json")
+    history_module.ICON_DIR = os.path.join(folder, "icons")
+    store = history_module.HistoryStore(10)
+    store.add(Notification(id=1, app_name="heise", summary="Article",
+                           hints={LINK_HINT: "https://example.com/article"}))
+    store.add(Notification(id=2, app_name="hook", summary="No link",
+                           hints={LINK_HINT: "file:///etc/passwd"}))
+    entries = store.entries()
+    check(
+        "the history keeps the link",
+        len(entries) == 2
+        and entries[1].get("url") == "https://example.com/article"
+        and entries[0].get("url") == "",
+    )
+    _ = application
+
+
 def test_atom_feed() -> None:
     """Atom, and the rule that keeps yesterday's headlines out of today."""
     sys.path.insert(0, os.path.join(ROOT, "src"))
@@ -758,6 +924,8 @@ def main() -> int:
         print("offline checks (no session needed):")
         test_atom_feed()
         test_file_operations()
+        test_media_focus()
+        test_history_link()
         test_hardened()
         print()
         if _failures:
@@ -793,6 +961,8 @@ def main() -> int:
         test_webhook()
         test_atom_feed()
         test_file_operations()
+        test_media_focus()
+        test_history_link()
         test_hardened()
         test_sound_hints()
     finally:

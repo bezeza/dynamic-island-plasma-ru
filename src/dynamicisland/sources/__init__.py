@@ -29,7 +29,7 @@ from typing import Any
 from PySide6.QtCore import QObject, Signal
 
 from .. import debug
-from ..model import URGENCY_LOW
+from ..model import LINK_HINT, URGENCY_LOW
 from .actions import ActionRunner
 from .base import Source
 from .feed import FeedSource
@@ -163,6 +163,16 @@ class SourceManager(QObject):
             hints["image-path"] = item.icon
         if item.progress >= 0:
             hints["value"] = item.progress
+        # The click's link rides along as a hint so the history can keep it:
+        # the action map here dies with the card, but a feed entry is exactly
+        # the kind of thing somebody wants to open a day later. Links only —
+        # a command from an old history row would be a surprise, not a click.
+        if (
+            item.default is not None
+            and item.default.kind == "url"
+            and item.default.url
+        ):
+            hints[LINK_HINT] = item.default.url
 
         debug(f"{source.name}: {item.summary!r} as #{notification_id}")
         self.notify.emit(

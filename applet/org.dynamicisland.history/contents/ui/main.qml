@@ -139,7 +139,8 @@ PlasmoidItem {
                 iconName: fresh[index].iconName || "",
                 iconFile: fresh[index].iconFile || "",
                 desktopFile: fresh[index].desktopFile || "",
-                desktopEntry: fresh[index].desktopEntry || ""
+                desktopEntry: fresh[index].desktopEntry || "",
+                url: fresh[index].url || ""
             }
             if (index < entries.count) {
                 entries.set(index, entry)
@@ -253,12 +254,17 @@ PlasmoidItem {
                 delegate: HistoryRow {
                     width: list.width
                     now: root.now
-                    /* Best first: the resolved desktop file, then the entry the
-                     * notification carried, and failing both the name the
-                     * application called itself — the island can still match a
-                     * window against that. */
-                    onActivated: root.open(model.desktopFile || model.desktopEntry
-                                           || model.iconName || model.appName)
+                    /* A row that carried a link — a feed entry, a webhook —
+                     * opens the page itself: there is no application behind
+                     * "heise online" to look for a window of.  Everything
+                     * else, best first: the resolved desktop file, then the
+                     * entry the notification carried, and failing both the
+                     * name the application called itself — the island can
+                     * still match a window against that. */
+                    onActivated: model.url
+                        ? Qt.openUrlExternally(model.url)
+                        : root.open(model.desktopFile || model.desktopEntry
+                                    || model.iconName || model.appName)
                 }
 
                 add: Transition {
