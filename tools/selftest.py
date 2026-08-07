@@ -26,7 +26,19 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from synthetic_pointer import Pointer  # noqa: E402
+# Only the interactive half drives a pointer, and only that half needs evdev.
+# Importing it up here unconditionally is what made --offline die before it ran
+# a single check: the machine CI runs on has no input devices and no python
+# evdev, so the import failed and took the whole file with it. Annotations are
+# strings under the __future__ import above, so a missing Pointer costs nothing
+# until something actually asks for one.
+try:
+    from synthetic_pointer import Pointer  # noqa: E402
+except ImportError as failure:  # pragma: no cover - depends on the machine
+    Pointer = None
+    POINTER_UNAVAILABLE = str(failure)
+else:
+    POINTER_UNAVAILABLE = ""
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOG = os.path.join(
@@ -753,6 +765,15 @@ def main() -> int:
             return 1
         print("All green.")
         return 0
+
+    if Pointer is None:
+        print(
+            "the interactive checks drive a real pointer and need python-evdev "
+            f"plus /dev/uinput: {POINTER_UNAVAILABLE}\n"
+            "run with --offline for the checks that are only code.",
+            file=sys.stderr,
+        )
+        return 1
 
     width, height = screen_size()
     print(f"Screen {width}x{height}, log: {LOG}")
