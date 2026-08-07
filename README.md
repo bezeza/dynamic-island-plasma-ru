@@ -171,13 +171,26 @@ built against.
 
 ## Install
 
-One command:
+Start from the **latest release**, not from `main`: main is where the work
+happens, a release is a state that was tested as a whole. Four lines get you
+there:
 
 ```bash
+git clone https://github.com/teodorgross/Dynamic-Island-Plasma-Wayland.git
+cd Dynamic-Island-Plasma-Wayland
+git checkout "$(git tag --sort=-v:refname | head -n 1)"   # the newest release
 ./tools/install.sh
 ```
 
-It does all of this:
+The launcher runs the island straight out of this folder, so the folder stays
+where it is. Updating later is the same idea from inside it:
+
+```bash
+git fetch --tags && git checkout "$(git tag --sort=-v:refname | head -n 1)"
+./tools/install.sh
+```
+
+`install.sh` does all of this:
 
 1. links `tools/run.sh` into `~/.local/bin/dynamic-island`
 2. installs a desktop entry so portals can resolve the app
@@ -316,6 +329,7 @@ runtime; unknown keys are preserved.
 | `showOsd` | `true` | Volume, brightness and the other on-screen displays in the island |
 | `osdTimeout` | `2000` | How long an on-screen display stays, in ms |
 | `showMedia` | `true` | Show a track when it starts, with previous/play/next |
+| `mediaHideWhenFocused` | `true` | No track banner while the player's own window has the focus |
 | `mediaTimeout` | `5000` | How long the track banner stays, in ms |
 | `soundEnabled` | `true` | Play the `sound-file` / `sound-name` hints senders provide |
 | `defaultSound` | `""` | Sound-theme event for notifications that ask for none |
@@ -603,6 +617,14 @@ back to Plasma — turn its OSD back on with
 Every player announces itself over MPRIS, so a track change brings up a banner
 with the cover, the title and the artist, plus previous, play/pause and next.
 The accent is taken from the cover, like everywhere else.
+
+The banner is for music coming from somewhere in the back. While the player's
+own window has the focus — the video watched in the browser, Spotify itself in
+front — the track change is already on screen, so no banner comes up; it
+returns the moment the player is minimised or another window takes over. A
+small KWin script reports the active window for this, the same way the
+window-raising works; `mediaHideWhenFocused: false` shows the banner
+regardless of focus.
 
 This one only listens — nothing is taken away from anybody, so Plasma's media
 applet keeps working as before. `showMedia: false` turns it off.

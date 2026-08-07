@@ -17,7 +17,7 @@
         "Category": "System Information",
         "Icon": "notifications",
         "License": "MIT",
-        "Version": "0.1.0",
+        "Version": "1.0.1",
         "EnabledByDefault": true,
         "ServiceTypes": [
             "Plasma/Applet"

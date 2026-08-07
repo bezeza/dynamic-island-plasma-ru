@@ -1,6 +1,20 @@
 # Changelog
 
-## 0.1.0 — first release
+## 1.0.1
+
+**The track banner minds the focus.** No card while the player's own window
+is in front — the video watched in the browser, Spotify itself on screen —
+and the card that is up leaves the moment the player is focused. A small KWin
+script reports the active window for this, the same mechanism the
+window-raising uses. `mediaHideWhenFocused: false` brings the old behaviour
+back; the volume display keeps carrying the player either way.
+
+**A history row opens its article.** A feed entry or a webhook card carries
+the page its click opens; now the history keeps that link, and clicking the
+row in the panel applet opens the article instead of hunting for a window of
+"heise online". Links only — a stored click never becomes a command.
+
+## 1.0.0 — first release
 
 The island takes `org.freedesktop.Notifications` away from plasmashell and
 draws every notification itself, on a `wlr-layer-shell` surface pinned under
