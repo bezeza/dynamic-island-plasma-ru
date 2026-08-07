@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dynamic-island"
+version = "0.1.0"
+description = "A Dynamic Island notification surface for KDE Plasma on Wayland"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+# Both are packaged by Fedora/Nobara and are expected to come from there:
+#   sudo dnf install python3-pyside6 python3-dbus layer-shell-qt
+dependencies = [
+    "PySide6>=6.7",
+    "dbus-python>=1.3",
+]
+
+[project.scripts]
+dynamic-island = "dynamicisland.app:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+dynamicisland = [
+    "qml/*.qml",
+    "qml/DynamicIsland/*.qml",
+    "qml/DynamicIsland/qmldir",
+]

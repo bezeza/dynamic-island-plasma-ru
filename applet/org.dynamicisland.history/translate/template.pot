@@ -1,0 +1,353 @@
+#. Translation template for the Dynamic Island panel applet.
+#. Compile with tools/build-translations.py (or msgfmt) into
+#. contents/locale/<language>/LC_MESSAGES/plasma_applet_org.dynamicisland.history.mo
+msgid ""
+msgstr ""
+"Project-Id-Version: plasma_applet_org.dynamicisland.history\n"
+"Report-Msgid-Bugs-To: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: contents/ui/main.qml
+msgid "%1 notification in the history"
+msgid_plural "%1 notifications in the history"
+msgstr[0] ""
+msgstr[1] ""
+
+#: contents/ui/main.qml
+msgid "Nothing in the history"
+msgstr ""
+
+#: contents/ui/main.qml
+msgid "History"
+msgstr ""
+
+#: contents/ui/main.qml
+msgid "Clear history"
+msgstr ""
+
+#: contents/ui/main.qml
+msgid "Notifications stay here after the island has taken them away."
+msgstr ""
+
+#: contents/ui/HistoryRow.qml
+msgid "just now"
+msgstr ""
+
+#: contents/ui/HistoryRow.qml
+msgid "%1 minute ago"
+msgid_plural "%1 minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Icon:"
+msgstr ""
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Icon name or path"
+msgstr ""
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Choose…"
+msgstr ""
+
+#: contents/ui/ConfigGeneral.qml
+msgid "A name from the icon theme (notifications, for example) or the path to an image file."
+msgstr ""
+
+#: contents/ui/ConfigGeneral.qml
+msgid "History:"
+msgstr ""
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Mark the icon while there is something in the history"
+msgstr ""
+
+#: contents/config/config.qml
+msgid "General"
+msgstr ""
+
+msgid "The island is not running. Changes here are handed to it, so they would go nowhere: systemctl --user start dynamic-island"
+msgstr ""
+
+msgid "Quiet"
+msgstr ""
+
+msgid "Do not disturb:"
+msgstr ""
+
+msgid "Drop everything but critical notifications"
+msgstr ""
+
+msgid "Stop the countdown while the pointer is on the island"
+msgstr ""
+
+msgid "Critical notifications stay until dismissed"
+msgstr ""
+
+msgid "How long a card stays"
+msgstr ""
+
+msgid " ms"
+msgstr ""
+
+msgid "Default:"
+msgstr ""
+
+msgid "Low urgency:"
+msgstr ""
+
+msgid "Volume and brightness:"
+msgstr ""
+
+msgid "Now playing:"
+msgstr ""
+
+msgid "What the island takes over"
+msgstr ""
+
+msgid "Show:"
+msgstr ""
+
+msgid "File operations, with pause and cancel"
+msgstr ""
+
+msgid "Volume, brightness and the other on-screen displays"
+msgstr ""
+
+msgid "The track that starts playing, with its buttons"
+msgstr ""
+
+msgid "Play the sounds applications ask for"
+msgstr ""
+
+msgid "Stack and history"
+msgstr ""
+
+msgid "Cards behind the front one:"
+msgstr ""
+
+msgid "Kept in the history:"
+msgstr ""
+
+msgid "Where it sits"
+msgstr ""
+
+msgid " px"
+msgstr ""
+
+msgid "Distance from the top edge:"
+msgstr ""
+
+msgid "0 keeps it flush with the bezel, which is where it belongs."
+msgstr ""
+
+msgid "Screen:"
+msgstr ""
+
+msgid "\"active\" follows the pointer, otherwise a connector name such as DP-1."
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Width when open:"
+msgstr ""
+
+msgid "Tallest a card may get:"
+msgstr ""
+
+msgid "Corner radius:"
+msgstr ""
+
+msgid "Height of the capsule:"
+msgstr ""
+
+msgid "Colour"
+msgstr ""
+
+msgid "Glow:"
+msgstr ""
+
+msgid "Take the colour from the application icon"
+msgstr ""
+
+msgid "Fallback colour:"
+msgstr ""
+
+msgid "Strength:"
+msgstr ""
+
+msgid "Hairline border:"
+msgstr ""
+
+msgid "Never shown"
+msgstr ""
+
+msgid "Applications:"
+msgstr ""
+
+msgid "One per line — the name it sends, or its desktop entry."
+msgstr ""
+
+msgid "New feed"
+msgstr ""
+
+msgid "New endpoint"
+msgstr ""
+
+msgid "Webhook"
+msgstr ""
+
+msgid "The island is not running. A source added here is handed to it, so it would go nowhere: systemctl --user start dynamic-island"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "RSS or Atom feed"
+msgstr ""
+
+msgid "JSON endpoint"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Nothing selected. Add a feed, a JSON endpoint, or a webhook other machines can send notifications to."
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Shown as"
+msgstr ""
+
+msgid "the name above"
+msgstr ""
+
+msgid "Icon"
+msgstr ""
+
+msgid "theme name or path"
+msgstr ""
+
+msgid "Address"
+msgstr ""
+
+msgid "Checked every"
+msgstr ""
+
+msgid " s"
+msgstr ""
+
+msgid "At most per round"
+msgstr ""
+
+msgid "Announce what is already there"
+msgstr ""
+
+msgid "Off keeps the first round quiet, so a restart does not replay old entries."
+msgstr ""
+
+msgid "Only headlines matching"
+msgstr ""
+
+msgid "a regular expression, empty for all"
+msgstr ""
+
+msgid "Where the list is in the answer"
+msgstr ""
+
+msgid "Fields"
+msgstr ""
+
+msgid "island field: path in the answer — one per line"
+msgstr ""
+
+msgid "Request headers"
+msgstr ""
+
+msgid "header: value — one per line"
+msgstr ""
+
+msgid "Listens on"
+msgstr ""
+
+msgid "127.0.0.1 is this machine only. 0.0.0.0 opens it to the network, and the island then refuses to start without a token."
+msgstr ""
+
+msgid "Port"
+msgstr ""
+
+msgid "Token"
+msgstr ""
+
+msgid "empty means no authorisation"
+msgstr ""
+
+msgid "Generate"
+msgstr ""
+
+msgid "The token is kept in config.json, which is written for you alone (mode 600). To keep it out of the file entirely, set \"tokenFile\" or \"tokenEnv\" there instead — see the README."
+msgstr ""
+
+msgid "Buttons may run commands"
+msgstr ""
+
+msgid "Off is the safe setting: whoever can reach this port could otherwise run anything as you."
+msgstr ""
+
+msgid "Anything that can fetch a URL can put a card up:"
+msgstr ""
+
+msgid "<this-machine>"
+msgstr ""
+
+msgid "Copy"
+msgstr ""
+
+msgid "The last part of the path is what the card says it came from — /notify/backup, /notify/doorbell, one per service. POST with a JSON body works the same way; GET / on the port prints the whole format."
+msgstr ""
+
+msgid "Panel icon"
+msgstr ""
+
+msgid "Island"
+msgstr ""
+
+msgid "Sources"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Island speaks:"
+msgstr ""
+
+msgid "Follow the desktop"
+msgstr ""
+
+msgid "This is for the island's own words — the reply field, the volume label, the buttons on a file operation. These settings pages belong to the panel widget and follow the desktop language instead (System Settings → Region & Language)."
+msgstr ""
+
+msgid "Made of:"
+msgstr ""
+
+msgid "AMOLED black"
+msgstr ""
+
+msgid "Dark"
+msgstr ""
+
+msgid "Light"
+msgstr ""
+
+msgid "Follow the colour scheme"
+msgstr ""
+
+msgid "AMOLED is true black, so on an OLED panel those pixels are off. Dark is a grey body for panels where black smears; Light is dark type on white; the last one takes the desktop's own colours."
+msgstr ""

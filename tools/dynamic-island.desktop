@@ -1,0 +1,19 @@
+[Desktop Entry]
+Type=Application
+Name=Dynamic Island
+GenericName=Notification surface
+GenericName[de]=Benachrichtigungsfläche
+GenericName[zh_CN]=通知界面
+GenericName[ja]=通知サーフェス
+Comment=Notification surface for KDE Plasma
+Comment[de]=Benachrichtigungsfläche für KDE Plasma
+Comment[zh_CN]=为 KDE Plasma 打造的通知界面
+Comment[ja]=KDE Plasma 向けの通知サーフェス
+Exec=dynamic-island
+Icon=notifications
+Terminal=false
+Categories=Utility;
+OnlyShowIn=KDE;
+# It is a background service started by systemd, not something to launch from
+# the menu — but the file has to exist so portals can resolve the app id.
+NoDisplay=true

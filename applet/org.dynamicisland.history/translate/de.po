@@ -1,0 +1,338 @@
+#. German translation for the Dynamic Island panel applet.
+#. Wording follows KDE's own catalogues: "Verlauf leeren", "Allgemein".
+msgid ""
+msgstr ""
+"Project-Id-Version: plasma_applet_org.dynamicisland.history\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "%1 notification in the history"
+msgid_plural "%1 notifications in the history"
+msgstr[0] "%1 Benachrichtigung im Verlauf"
+msgstr[1] "%1 Benachrichtigungen im Verlauf"
+
+msgid "Nothing in the history"
+msgstr "Nichts im Verlauf"
+
+msgid "History"
+msgstr "Verlauf"
+
+msgid "Clear history"
+msgstr "Verlauf leeren"
+
+msgid "Notifications stay here after the island has taken them away."
+msgstr "Benachrichtigungen bleiben hier, nachdem die Insel sie weggeräumt hat."
+
+msgid "just now"
+msgstr "gerade eben"
+
+msgid "%1 minute ago"
+msgid_plural "%1 minutes ago"
+msgstr[0] "vor %1 Minute"
+msgstr[1] "vor %1 Minuten"
+
+msgid "Icon:"
+msgstr "Symbol:"
+
+msgid "Icon name or path"
+msgstr "Symbolname oder Pfad"
+
+msgid "Choose…"
+msgstr "Auswählen…"
+
+msgid "A name from the icon theme (notifications, for example) or the path to an image file."
+msgstr "Ein Name aus dem Symboldesign (zum Beispiel notifications) oder der Pfad zu einer Bilddatei."
+
+msgid "History:"
+msgstr "Verlauf:"
+
+msgid "Mark the icon while there is something in the history"
+msgstr "Symbol markieren, solange etwas im Verlauf steht"
+
+msgid "General"
+msgstr "Allgemein"
+
+msgid "The island is not running. Changes here are handed to it, so they would go nowhere: systemctl --user start dynamic-island"
+msgstr "Die Insel läuft nicht. Änderungen hier werden ihr übergeben und würden ins Leere gehen: systemctl --user start dynamic-island"
+
+msgid "Quiet"
+msgstr "Ruhe"
+
+msgid "Do not disturb:"
+msgstr "Nicht stören:"
+
+msgid "Drop everything but critical notifications"
+msgstr "Alles außer kritischen Benachrichtigungen verwerfen"
+
+msgid "Stop the countdown while the pointer is on the island"
+msgstr "Countdown anhalten, solange der Zeiger auf der Insel ist"
+
+msgid "Critical notifications stay until dismissed"
+msgstr "Kritische Benachrichtigungen bleiben, bis sie verworfen werden"
+
+msgid "How long a card stays"
+msgstr "Wie lange eine Karte bleibt"
+
+msgid " ms"
+msgstr " ms"
+
+msgid "Default:"
+msgstr "Standard:"
+
+msgid "Low urgency:"
+msgstr "Niedrige Dringlichkeit:"
+
+msgid "Volume and brightness:"
+msgstr "Lautstärke und Helligkeit:"
+
+msgid "Now playing:"
+msgstr "Jetzt läuft:"
+
+msgid "What the island takes over"
+msgstr "Was die Insel übernimmt"
+
+msgid "Show:"
+msgstr "Anzeigen:"
+
+msgid "File operations, with pause and cancel"
+msgstr "Dateivorgänge, mit Anhalten und Abbrechen"
+
+msgid "Volume, brightness and the other on-screen displays"
+msgstr "Lautstärke, Helligkeit und die übrigen Bildschirmanzeigen"
+
+msgid "The track that starts playing, with its buttons"
+msgstr "Das Stück, das zu spielen beginnt, mit seinen Knöpfen"
+
+msgid "Play the sounds applications ask for"
+msgstr "Klänge abspielen, die Anwendungen anfordern"
+
+msgid "Stack and history"
+msgstr "Stapel und Verlauf"
+
+msgid "Cards behind the front one:"
+msgstr "Karten hinter der vordersten:"
+
+msgid "Kept in the history:"
+msgstr "Im Verlauf behalten:"
+
+msgid "Where it sits"
+msgstr "Wo sie sitzt"
+
+msgid " px"
+msgstr " px"
+
+msgid "Distance from the top edge:"
+msgstr "Abstand zum oberen Rand:"
+
+msgid "0 keeps it flush with the bezel, which is where it belongs."
+msgstr "0 lässt sie bündig am Rahmen sitzen, wo sie hingehört."
+
+msgid "Screen:"
+msgstr "Bildschirm:"
+
+msgid "\"active\" follows the pointer, otherwise a connector name such as DP-1."
+msgstr "\"active\" folgt dem Zeiger, sonst ein Anschlussname wie DP-1."
+
+msgid "Size"
+msgstr "Größe"
+
+msgid "Width when open:"
+msgstr "Breite im geöffneten Zustand:"
+
+msgid "Tallest a card may get:"
+msgstr "Maximale Höhe einer Karte:"
+
+msgid "Corner radius:"
+msgstr "Eckenradius:"
+
+msgid "Height of the capsule:"
+msgstr "Höhe der Kapsel:"
+
+msgid "Colour"
+msgstr "Farbe"
+
+msgid "Glow:"
+msgstr "Schein:"
+
+msgid "Take the colour from the application icon"
+msgstr "Farbe aus dem Anwendungssymbol nehmen"
+
+msgid "Fallback colour:"
+msgstr "Ersatzfarbe:"
+
+msgid "Strength:"
+msgstr "Stärke:"
+
+msgid "Hairline border:"
+msgstr "Haarlinie:"
+
+msgid "Never shown"
+msgstr "Nie anzeigen"
+
+msgid "Applications:"
+msgstr "Anwendungen:"
+
+msgid "One per line — the name it sends, or its desktop entry."
+msgstr "Eine pro Zeile — der Name, den sie sendet, oder ihr Desktop-Eintrag."
+
+msgid "New feed"
+msgstr "Neuer Feed"
+
+msgid "New endpoint"
+msgstr "Neuer Endpunkt"
+
+msgid "Webhook"
+msgstr "Webhook"
+
+msgid "The island is not running. A source added here is handed to it, so it would go nowhere: systemctl --user start dynamic-island"
+msgstr "Die Insel läuft nicht. Eine hier angelegte Quelle wird ihr übergeben und würde ins Leere gehen: systemctl --user start dynamic-island"
+
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "RSS or Atom feed"
+msgstr "RSS- oder Atom-Feed"
+
+msgid "JSON endpoint"
+msgstr "JSON-Endpunkt"
+
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "Nothing selected. Add a feed, a JSON endpoint, or a webhook other machines can send notifications to."
+msgstr "Nichts ausgewählt. Fügen Sie einen Feed hinzu, einen JSON-Endpunkt oder einen Webhook, an den andere Rechner Benachrichtigungen schicken können."
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Shown as"
+msgstr "Angezeigt als"
+
+msgid "the name above"
+msgstr "der Name oben"
+
+msgid "Icon"
+msgstr "Symbol"
+
+msgid "theme name or path"
+msgstr "Name im Symboldesign oder Pfad"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "Checked every"
+msgstr "Abgerufen alle"
+
+msgid " s"
+msgstr " s"
+
+msgid "At most per round"
+msgstr "Höchstens pro Durchgang"
+
+msgid "Announce what is already there"
+msgstr "Vorhandenes ankündigen"
+
+msgid "Off keeps the first round quiet, so a restart does not replay old entries."
+msgstr "Aus lässt den ersten Durchgang stumm, damit ein Neustart keine alten Einträge wiederholt."
+
+msgid "Only headlines matching"
+msgstr "Nur Überschriften, die passen auf"
+
+msgid "a regular expression, empty for all"
+msgstr "ein regulärer Ausdruck, leer für alle"
+
+msgid "Where the list is in the answer"
+msgstr "Wo die Liste in der Antwort steht"
+
+msgid "Fields"
+msgstr "Felder"
+
+msgid "island field: path in the answer — one per line"
+msgstr "Inselfeld: Pfad in der Antwort — eines pro Zeile"
+
+msgid "Request headers"
+msgstr "Anfrage-Header"
+
+msgid "header: value — one per line"
+msgstr "Header: Wert — eines pro Zeile"
+
+msgid "Listens on"
+msgstr "Lauscht auf"
+
+msgid "127.0.0.1 is this machine only. 0.0.0.0 opens it to the network, and the island then refuses to start without a token."
+msgstr "127.0.0.1 ist nur dieser Rechner. 0.0.0.0 öffnet ihn zum Netzwerk, und die Insel startet dann ohne Token nicht."
+
+msgid "Port"
+msgstr "Port"
+
+msgid "Token"
+msgstr "Token"
+
+msgid "empty means no authorisation"
+msgstr "leer bedeutet keine Autorisierung"
+
+msgid "Generate"
+msgstr "Erzeugen"
+
+msgid "The token is kept in config.json, which is written for you alone (mode 600). To keep it out of the file entirely, set \"tokenFile\" or \"tokenEnv\" there instead — see the README."
+msgstr "Das Token steht in config.json, die nur für Sie lesbar geschrieben wird (Modus 600). Um es ganz aus der Datei herauszuhalten, setzen Sie dort stattdessen \"tokenFile\" oder \"tokenEnv\" — siehe README."
+
+msgid "Buttons may run commands"
+msgstr "Knöpfe dürfen Befehle ausführen"
+
+msgid "Off is the safe setting: whoever can reach this port could otherwise run anything as you."
+msgstr "Aus ist die sichere Einstellung: Wer diesen Port erreicht, könnte sonst alles unter Ihrem Namen ausführen."
+
+msgid "Anything that can fetch a URL can put a card up:"
+msgstr "Alles, was eine URL abrufen kann, kann eine Karte anzeigen:"
+
+msgid "<this-machine>"
+msgstr "<dieser-rechner>"
+
+msgid "Copy"
+msgstr "Kopieren"
+
+msgid "The last part of the path is what the card says it came from — /notify/backup, /notify/doorbell, one per service. POST with a JSON body works the same way; GET / on the port prints the whole format."
+msgstr "Der letzte Teil des Pfades ist der Absender, den die Karte nennt — /notify/backup, /notify/doorbell, einer je Dienst. POST mit JSON-Rumpf geht genauso; GET / auf dem Port druckt das ganze Format."
+
+msgid "Panel icon"
+msgstr "Symbol in der Leiste"
+
+msgid "Island"
+msgstr "Insel"
+
+msgid "Sources"
+msgstr "Quellen"
+
+msgid "Language"
+msgstr "Sprache"
+
+msgid "Island speaks:"
+msgstr "Die Insel spricht:"
+
+msgid "Follow the desktop"
+msgstr "Der Arbeitsfläche folgen"
+
+msgid "This is for the island's own words — the reply field, the volume label, the buttons on a file operation. These settings pages belong to the panel widget and follow the desktop language instead (System Settings → Region & Language)."
+msgstr "Das gilt für die eigenen Wörter der Insel — das Antwortfeld, die Lautstärke-Beschriftung, die Knöpfe an einem Dateivorgang. Diese Einstellungsseiten gehören zum Miniprogramm und folgen stattdessen der Sprache der Arbeitsfläche (Systemeinstellungen → Region und Sprache)."
+
+msgid "Made of:"
+msgstr "Besteht aus:"
+
+msgid "AMOLED black"
+msgstr "AMOLED-Schwarz"
+
+msgid "Dark"
+msgstr "Dunkel"
+
+msgid "Light"
+msgstr "Hell"
+
+msgid "Follow the colour scheme"
+msgstr "Dem Farbschema folgen"
+
+msgid "AMOLED is true black, so on an OLED panel those pixels are off. Dark is a grey body for panels where black smears; Light is dark type on white; the last one takes the desktop's own colours."
+msgstr "AMOLED ist echtes Schwarz — auf einem OLED-Panel sind diese Pixel damit aus. Dunkel ist ein grauer Körper für Panels, auf denen Schwarz schmiert; Hell ist dunkle Schrift auf Weiß; das letzte übernimmt die Farben der Arbeitsfläche."

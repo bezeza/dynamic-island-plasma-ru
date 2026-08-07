@@ -1,0 +1,47 @@
+# What a machine with no screen can honestly check.
+#
+# The interesting half of this project's testing drives a real pointer over a
+# real layer-shell surface and cannot run here — ``tools/selftest.py`` without
+# ``--offline`` needs a Wayland session with KWin. What is left is still worth
+# a gate: everything compiles, the translation catalogues know about every
+# string in the interface, and the parts that are only code behave.
+
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install what the offline checks need
+        run: |
+          sudo apt-get update
+          # PySide6 pulls these in even for an offscreen platform plugin.
+          sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libdbus-1-3
+          python -m pip install --upgrade pip
+          python -m pip install PySide6
+
+      - name: Everything compiles
+        run: python -m compileall -q src/dynamicisland tools
+
+      - name: The catalogues know every string
+        run: python tools/update-translations.py --check
+
+      - name: The catalogues build
+        run: python tools/build-translations.py
+
+      - name: Offline checks
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: python tools/selftest.py --offline

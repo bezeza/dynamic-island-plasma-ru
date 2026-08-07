@@ -1,0 +1,20 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Id": "org.dynamicisland.history",
+        "Name": "Dynamic Island",
+        "Description": "Shows the notifications the island has already dismissed",
+        "Description[de]": "Zeigt die Benachrichtigungen, die die Insel schon weggeräumt hat",
+        "Description[zh_CN]": "显示灵动岛已经收起的通知",
+        "Description[ja]": "アイランドが消した通知を表示します",
+        "Category": "System Information",
+        "Icon": "notifications",
+        "License": "MIT",
+        "Version": "0.1.0",
+        "EnabledByDefault": true,
+        "ServiceTypes": [
+            "Plasma/Applet"
+        ]
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

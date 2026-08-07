@@ -1,0 +1,34 @@
+# Starts the island before plasmashell, which is the whole trick.
+#
+# plasmashell claims org.freedesktop.Notifications while it starts up and never
+# gives it back on request. Getting there first means it finds the name taken
+# and leaves the job to us — no shell restart, no flicker, every login.
+#
+# Type=dbus is what makes the ordering binding: systemd only considers this
+# unit started once the name is actually on the bus, so plasmashell cannot slip
+# past us. If we fail to get it, TimeoutStartSec caps how long the rest of the
+# session waits.
+
+[Unit]
+Description=Dynamic Island notification surface
+PartOf=graphical-session.target
+After=plasma-kwin_wayland.service
+Before=plasma-plasmashell.service
+StartLimitIntervalSec=60s
+StartLimitBurst=3
+
+[Service]
+Type=dbus
+BusName=org.freedesktop.Notifications
+# Without this Python buffers its output into 8 KB blocks, and the journal only
+# gets them when the service stops — which is exactly when they stop being
+# useful. Every line here is one event; there is nothing to gain by holding it.
+Environment=PYTHONUNBUFFERED=1
+ExecStart=%h/.local/bin/dynamic-island
+Restart=on-failure
+RestartSec=2s
+TimeoutStartSec=15s
+Slice=session.slice
+
+[Install]
+WantedBy=plasma-core.target
