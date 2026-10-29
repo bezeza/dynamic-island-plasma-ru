@@ -370,8 +370,8 @@ msgstr "重複判定の時間枠："
 msgid "Hide keywords:"
 msgstr "非表示にするキーワード："
 
-msgid "Always show keywords:"
-msgstr "常に表示するキーワード："
+msgid "Protect keywords:"
+msgstr "Geschützte Schlüsselwörter:"
 
-msgid "Critical notifications always pass. Keyword matches are case-insensitive; identical Telegram messages are merged only inside the selected time window."
-msgstr "重要な通知は常に表示されます。キーワードは大文字と小文字を区別せず、同一の Telegram 通知は設定した時間内だけまとめられます。"
+msgid "Protected keywords bypass Telegram keyword filtering and duplicate merging. Critical notifications always pass; global Do Not Disturb and the application blacklist still apply."
+msgstr "Geschützte Schlüsselwörter umgehen die Telegram-Schlüsselwortfilterung und das Zusammenfassen von Duplikaten. Kritische Meldungen werden immer angezeigt; „Nicht stören“ und die App-Sperrliste gelten weiterhin."
