@@ -21,7 +21,7 @@ from PySide6.QtNetwork import (
     QNetworkRequest,
 )
 
-from . import apps, artwork, debug, sound
+from . import apps, artwork, debug, filtering, sound
 from .config import Config
 from .history import HistoryStore
 from .model import (
@@ -117,6 +117,8 @@ class IslandController(QObject):
         self._service = service
         self._provider = provider
         self._timers: dict[int, _Countdown] = {}
+        self._telegram_duplicates = filtering.TelegramDuplicateTracker()
+        self._telegram_duplicate_counts: dict[int, int] = {}
         self._hovered = False
         self._history = HistoryStore(int(config.get("historyLength")), self)
         self._strings = Strings(self, str(config.get("language") or ""))
@@ -507,7 +509,30 @@ class IslandController(QObject):
         image: QImage | None = None,
     ) -> None:
         urgency = self._urgency(hints)
+        display_app_name = str(hints.get("x-kde-display-appname", "") or app_name)
+        telegram = filtering.is_telegram(
+            app_name, hints.get("desktop-entry", ""), display_app_name
+        )
+        summary_text = str(summary or "")
+        body_text = str(body or "")
+        smart_filter = telegram and bool(self._config.get("telegramSmartFilter"))
+        important = (
+            urgency == URGENCY_CRITICAL
+            or (
+                smart_filter
+                and filtering.important_keyword_matches(
+                    summary_text, body_text,
+                    self._config.get("telegramImportantKeywords", []),
+                )
+            )
+        )
         reason = self._suppression_reason(app_name, hints, urgency)
+        if not reason and smart_filter and not important:
+            if filtering.matches_keywords(
+                f"{summary_text}\n{body_text}",
+                self._config.get("telegramFilterKeywords", []),
+            ):
+                reason = "matched a Telegram filter keyword"
         if reason:
             # Dropping a notification without a word is how they go missing, so
             # say so — an inhibition in particular is otherwise invisible.
@@ -555,6 +580,38 @@ class IslandController(QObject):
 
         if notification.has_image:
             self._provider.put(notification_id, image)
+
+        # Merge only identical Telegram notifications in a short time window.
+        # Critical and keyword-marked important messages always remain separate.
+        if (
+            smart_filter
+            and not important
+            and bool(self._config.get("telegramDeduplicate", True))
+        ):
+            duplicate_key = filtering.telegram_duplicate_key(
+                app_name, desktop_entry, display_app_name, summary_text, body_text
+            )
+            if duplicate_key is not None:
+                duplicate = self._telegram_duplicates.match_or_remember(
+                    duplicate_key,
+                    notification_id,
+                    summary_text,
+                    time.monotonic(),
+                    float(self._config.get("telegramDeduplicateSeconds", 30)),
+                    lambda candidate_id: self._model.row_of(candidate_id) >= 0,
+                )
+                if duplicate is not None and duplicate.notification_id != notification_id:
+                    existing = self._model.get(duplicate.notification_id)
+                    if existing is not None:
+                        duplicate_count = duplicate.count
+                        existing.summary = duplicate.base_summary
+                        existing.hints = dict(existing.hints)
+                        existing.hints["x-dynamic-island-repeat-count"] = duplicate_count
+                        existing.body = body_text
+                        self._model.put(existing)
+                        self._arm(existing)
+                        self._service.emit_closed(notification_id, CLOSED_UNDEFINED)
+                        return
 
         self._model.put(notification)
         self._trim_stack()
