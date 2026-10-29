@@ -354,3 +354,24 @@ msgstr "Ändere die Suche oder wähle eine andere Anwendung."
 
 msgid "Remove notification"
 msgstr "Benachrichtigung entfernen"
+
+msgid "Telegram smart filter"
+msgstr "Telegram スマートフィルター"
+
+msgid "Enable smart filtering for Telegram"
+msgstr "Telegram のスマートフィルターを有効にする"
+
+msgid "Merge repeated Telegram notifications"
+msgstr "Telegram の重複通知をまとめる"
+
+msgid "Duplicate window:"
+msgstr "重複判定の時間枠："
+
+msgid "Hide keywords:"
+msgstr "非表示にするキーワード："
+
+msgid "Always show keywords:"
+msgstr "常に表示するキーワード："
+
+msgid "Critical notifications always pass. Keyword matches are case-insensitive; identical Telegram messages are merged only inside the selected time window."
+msgstr "重要な通知は常に表示されます。キーワードは大文字と小文字を区別せず、同一の Telegram 通知は設定した時間内だけまとめられます。"
