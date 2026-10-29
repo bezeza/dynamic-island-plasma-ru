@@ -335,6 +335,92 @@ KCM.SimpleKCM {
             font: Kirigami.Theme.smallFont
         }
 
+        // -- Telegram smart filter -----------------------------------------------
+        Item { Kirigami.FormData.isSection: true; Kirigami.FormData.label: i18n("Telegram smart filter") }
+
+        Toggle {
+            key: "telegramSmartFilter"
+            fallback: false
+            text: i18n("Enable smart filtering for Telegram")
+        }
+
+        Toggle {
+            key: "telegramDeduplicate"
+            fallback: true
+            text: i18n("Merge repeated Telegram notifications")
+            enabled: island.value("telegramSmartFilter", false)
+        }
+
+        Spin {
+            key: "telegramDeduplicateSeconds"
+            fallback: 30
+            from: 5; to: 300; step: 5; unit: i18n(" s")
+            Kirigami.FormData.label: i18n("Duplicate window:")
+            enabled: island.value("telegramSmartFilter", false)
+        }
+
+        QQC2.TextArea {
+            id: telegramKeywords
+            Kirigami.FormData.label: i18n("Hide keywords:")
+            Layout.minimumWidth: Kirigami.Units.gridUnit * 18
+            Layout.minimumHeight: Kirigami.Units.gridUnit * 4
+            placeholderText: "promo\nadvertisement\nchannel name"
+            text: (island.value("telegramFilterKeywords", [])).join("\n")
+            enabled: island.value("telegramSmartFilter", false)
+
+            onEditingFinished: {
+                if (!island.ready)
+                    return
+                const lines = text.split("\n")
+                    .map(function (line) { return line.trim() })
+                    .filter(function (line) { return line.length > 0 })
+                island.set("telegramFilterKeywords", lines)
+            }
+
+            Connections {
+                target: island
+                function onValuesChanged() {
+                    if (!telegramKeywords.activeFocus)
+                        telegramKeywords.text = (island.value("telegramFilterKeywords", [])).join("\n")
+                }
+            }
+        }
+
+        QQC2.TextArea {
+            id: telegramImportantKeywords
+            Kirigami.FormData.label: i18n("Always show keywords:")
+            Layout.minimumWidth: Kirigami.Units.gridUnit * 18
+            Layout.minimumHeight: Kirigami.Units.gridUnit * 4
+            placeholderText: "urgent\nimportant\nfamily"
+            text: (island.value("telegramImportantKeywords", [])).join("\n")
+            enabled: island.value("telegramSmartFilter", false)
+
+            onEditingFinished: {
+                if (!island.ready)
+                    return
+                const lines = text.split("\n")
+                    .map(function (line) { return line.trim() })
+                    .filter(function (line) { return line.length > 0 })
+                island.set("telegramImportantKeywords", lines)
+            }
+
+            Connections {
+                target: island
+                function onValuesChanged() {
+                    if (!telegramImportantKeywords.activeFocus)
+                        telegramImportantKeywords.text = (island.value("telegramImportantKeywords", [])).join("\n")
+                }
+            }
+        }
+
+        QQC2.Label {
+            Layout.maximumWidth: Kirigami.Units.gridUnit * 22
+            wrapMode: Text.WordWrap
+            text: i18n("Critical notifications always pass. Keyword matches are case-insensitive; identical Telegram messages are merged only inside the selected time window.")
+            opacity: 0.7
+            font: Kirigami.Theme.smallFont
+        }
+
         // -- never shown -----------------------------------------------------------
         Item { Kirigami.FormData.isSection: true; Kirigami.FormData.label: i18n("Never shown") }
 
