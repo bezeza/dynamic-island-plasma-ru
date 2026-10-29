@@ -355,3 +355,24 @@ msgstr "请更改搜索词或选择其他应用。"
 
 msgid "Remove notification"
 msgstr "删除通知"
+
+msgid "Telegram smart filter"
+msgstr undefined
+
+msgid "Enable smart filtering for Telegram"
+msgstr undefined
+
+msgid "Merge repeated Telegram notifications"
+msgstr undefined
+
+msgid "Duplicate window:"
+msgstr undefined
+
+msgid "Hide keywords:"
+msgstr undefined
+
+msgid "Always show keywords:"
+msgstr undefined
+
+msgid "Critical notifications always pass. Keyword matches are case-insensitive; identical Telegram messages are merged only inside the selected time window."
+msgstr undefined
