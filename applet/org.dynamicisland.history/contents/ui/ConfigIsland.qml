@@ -388,7 +388,7 @@ KCM.SimpleKCM {
 
         QQC2.TextArea {
             id: telegramImportantKeywords
-            Kirigami.FormData.label: i18n("Always show keywords:")
+            Kirigami.FormData.label: i18n("Protect keywords:")
             Layout.minimumWidth: Kirigami.Units.gridUnit * 18
             Layout.minimumHeight: Kirigami.Units.gridUnit * 4
             placeholderText: "urgent\nimportant\nfamily"
