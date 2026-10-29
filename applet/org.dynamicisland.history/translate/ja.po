@@ -371,8 +371,8 @@ msgstr "重复合并时间窗口："
 msgid "Hide keywords:"
 msgstr "隐藏关键词："
 
-msgid "Always show keywords:"
-msgstr "始终显示的关键词："
+msgid "Protect keywords:"
+msgstr "保護するキーワード："
 
-msgid "Critical notifications always pass. Keyword matches are case-insensitive; identical Telegram messages are merged only inside the selected time window."
-msgstr "重要通知始终显示。关键词不区分大小写；相同的 Telegram 通知仅在设定的时间窗口内合并。"
+msgid "Protected keywords bypass Telegram keyword filtering and duplicate merging. Critical notifications always pass; global Do Not Disturb and the application blacklist still apply."
+msgstr "保護キーワードは Telegram のキーワードフィルターと重複統合を回避します。重大な通知は常に通過しますが、「おやすみモード」とアプリのブロックリストは引き続き適用されます。"
