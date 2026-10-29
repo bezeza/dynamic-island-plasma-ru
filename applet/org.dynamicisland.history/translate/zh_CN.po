@@ -355,3 +355,24 @@ msgstr "请更改搜索词或选择其他应用。"
 
 msgid "Remove notification"
 msgstr "删除通知"
+
+msgid "Telegram smart filter"
+msgstr undefined
+
+msgid "Enable smart filtering for Telegram"
+msgstr undefined
+
+msgid "Merge repeated Telegram notifications"
+msgstr undefined
+
+msgid "Duplicate window:"
+msgstr undefined
+
+msgid "Hide keywords:"
+msgstr undefined
+
+msgid "Protect keywords:"
+msgstr "保护关键词："
+
+msgid "Protected keywords bypass Telegram keyword filtering and duplicate merging. Critical notifications always pass; global Do Not Disturb and the application blacklist still apply."
+msgstr "受保护的关键词可绕过 Telegram 关键词过滤和重复合并。紧急通知始终显示；全局免打扰和应用黑名单仍然生效。"

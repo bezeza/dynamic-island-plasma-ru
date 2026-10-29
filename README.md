@@ -335,6 +335,11 @@ runtime; unknown keys are preserved.
 | `defaultSound` | `""` | Sound-theme event for notifications that ask for none |
 | `blacklist` | `[]` | App names or `desktop-entry` values that never show up |
 | `doNotDisturb` | `false` | Suppress everything but critical notifications |
+| `telegramSmartFilter` | `false` | Enable Telegram-only keyword filtering and duplicate collapsing |
+| `telegramFilterKeywords` | `[]` | Case-insensitive words/phrases that suppress Telegram notifications |
+| `telegramImportantKeywords` | `[]` | Words/phrases that bypass Telegram keyword filtering and duplicate merging |
+| `telegramDeduplicate` | `true` | Merge identical Telegram messages into one card |
+| `telegramDeduplicateSeconds` | `30` | Time window for merging identical Telegram messages, from 5 to 300 seconds in settings |
 | `sources` | `[]` | Feeds, endpoints and the webhook server — see below |
 
 ---

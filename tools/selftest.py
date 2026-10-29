@@ -940,12 +940,71 @@ def test_sound_hints() -> None:
     )
 
 
+def test_telegram_filter() -> None:
+    """The Telegram smart filter stays app-specific and preserves exceptions."""
+    sys.path.insert(0, os.path.join(ROOT, "src"))
+    from dynamicisland.filtering import (
+        TelegramDuplicateTracker,
+        important_keyword_matches,
+        is_telegram,
+        matches_keywords,
+        telegram_duplicate_key,
+    )
+
+    check(
+        "Telegram identified by desktop entry or display name",
+        is_telegram("Telegram Desktop")
+        and is_telegram("telegram-desktop")
+        and is_telegram("org.telegram.desktop", "", ""),
+    )
+    check(
+        "unrelated applications are not treated as Telegram",
+        not is_telegram("Signal")
+        and telegram_duplicate_key("Signal", "", "", "Hello", "World") is None,
+    )
+    check(
+        "keyword filtering is case-insensitive and ignores blank rules",
+        matches_keywords("Limited PROMO offer", ["", "promo"])
+        and not matches_keywords("A family update", ["promo", "ads"]),
+    )
+    check(
+        "important keywords match title and body",
+        important_keyword_matches("Chat update", "URGENT: call me", ["urgent"])
+        and not important_keyword_matches("Hello", "World", ["family"]),
+    )
+
+    tracker = TelegramDuplicateTracker()
+    key = telegram_duplicate_key(
+        "Telegram", "org.telegram.desktop", "Telegram", "Hello", "Same message"
+    )
+    other_key = telegram_duplicate_key(
+        "Telegram", "org.telegram.desktop", "Telegram", "Hello", "Different message"
+    )
+    live = {10}
+    record = tracker.match_or_remember(key, 10, "Hello", 100.0, 30, lambda n: n in live)
+    check("first Telegram notification is not collapsed", record is None)
+    record = tracker.match_or_remember(key, 11, "Hello", 105.0, 30, lambda n: n in live)
+    check(
+        "identical Telegram notification increments repeat count",
+        record is not None and record.notification_id == 10 and record.count == 2,
+    )
+    record = tracker.match_or_remember(
+        other_key, 12, "Hello", 106.0, 30, lambda n: n in live
+    )
+    check("different message body is not collapsed", record is None)
+    record = tracker.match_or_remember(key, 13, "Hello", 140.0, 30, lambda n: n in live)
+    check("duplicate outside the time window starts a new group", record is None)
+    tracker.clear()
+    check("duplicate tracker can be reset", not tracker._records)
+
+
 def main() -> int:
     if "--offline" in sys.argv:
         print("offline checks (no session needed):")
         test_atom_feed()
         test_file_operations()
         test_media_focus()
+        test_telegram_filter()
         test_history_link()
         test_hardened()
         print()
@@ -983,6 +1042,7 @@ def main() -> int:
         test_atom_feed()
         test_file_operations()
         test_media_focus()
+        test_telegram_filter()
         test_history_link()
         test_hardened()
         test_sound_hints()

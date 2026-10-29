@@ -355,3 +355,24 @@ msgstr "検索語句を変更するか、別のアプリケーションを選択
 
 msgid "Remove notification"
 msgstr "通知を削除"
+
+msgid "Telegram smart filter"
+msgstr "Telegram 智能过滤"
+
+msgid "Enable smart filtering for Telegram"
+msgstr "启用 Telegram 智能过滤"
+
+msgid "Merge repeated Telegram notifications"
+msgstr "合并重复的 Telegram 通知"
+
+msgid "Duplicate window:"
+msgstr "重复合并时间窗口："
+
+msgid "Hide keywords:"
+msgstr "隐藏关键词："
+
+msgid "Protect keywords:"
+msgstr "保護するキーワード："
+
+msgid "Protected keywords bypass Telegram keyword filtering and duplicate merging. Critical notifications always pass; global Do Not Disturb and the application blacklist still apply."
+msgstr "保護キーワードは Telegram のキーワードフィルターと重複統合を回避します。重大な通知は常に通過しますが、「おやすみモード」とアプリのブロックリストは引き続き適用されます。"

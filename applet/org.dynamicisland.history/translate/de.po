@@ -354,3 +354,24 @@ msgstr "Ändere die Suche oder wähle eine andere Anwendung."
 
 msgid "Remove notification"
 msgstr "Benachrichtigung entfernen"
+
+msgid "Telegram smart filter"
+msgstr "Telegram スマートフィルター"
+
+msgid "Enable smart filtering for Telegram"
+msgstr "Telegram のスマートフィルターを有効にする"
+
+msgid "Merge repeated Telegram notifications"
+msgstr "Telegram の重複通知をまとめる"
+
+msgid "Duplicate window:"
+msgstr "重複判定の時間枠："
+
+msgid "Hide keywords:"
+msgstr "非表示にするキーワード："
+
+msgid "Protect keywords:"
+msgstr "Geschützte Schlüsselwörter:"
+
+msgid "Protected keywords bypass Telegram keyword filtering and duplicate merging. Critical notifications always pass; global Do Not Disturb and the application blacklist still apply."
+msgstr "Geschützte Schlüsselwörter umgehen die Telegram-Schlüsselwortfilterung und das Zusammenfassen von Duplikaten. Kritische Meldungen werden immer angezeigt; „Nicht stören“ und die App-Sperrliste gelten weiterhin."

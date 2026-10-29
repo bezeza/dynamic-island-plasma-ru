@@ -355,3 +355,24 @@ msgstr "Измените запрос или выберите другое пр�
 
 msgid "Remove notification"
 msgstr "Удалить уведомление"
+
+msgid "Telegram smart filter"
+msgstr "Telegram-Smartfilter"
+
+msgid "Enable smart filtering for Telegram"
+msgstr "Intelligente Filterung für Telegram aktivieren"
+
+msgid "Merge repeated Telegram notifications"
+msgstr "Wiederholte Telegram-Benachrichtigungen zusammenfassen"
+
+msgid "Duplicate window:"
+msgstr "Zeitfenster für Duplikate:"
+
+msgid "Hide keywords:"
+msgstr "Auszublendende Schlüsselwörter:"
+
+msgid "Protect keywords:"
+msgstr "Защищённые ключевые слова:"
+
+msgid "Protected keywords bypass Telegram keyword filtering and duplicate merging. Critical notifications always pass; global Do Not Disturb and the application blacklist still apply."
+msgstr "Защищённые слова обходят фильтрацию по ключевым словам и объединение повторов Telegram. Критические уведомления всегда проходят; общий режим «Не беспокоить» и чёрный список приложений продолжают действовать."
