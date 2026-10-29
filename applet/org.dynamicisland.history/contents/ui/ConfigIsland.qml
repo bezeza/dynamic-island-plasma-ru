@@ -416,7 +416,7 @@ KCM.SimpleKCM {
         QQC2.Label {
             Layout.maximumWidth: Kirigami.Units.gridUnit * 22
             wrapMode: Text.WordWrap
-            text: i18n("Critical notifications always pass. Keyword matches are case-insensitive; identical Telegram messages are merged only inside the selected time window.")
+            text: i18n("Protected keywords bypass Telegram keyword filtering and duplicate merging. Critical notifications always pass; global Do Not Disturb and the application blacklist still apply.")
             opacity: 0.7
             font: Kirigami.Theme.smallFont
         }
