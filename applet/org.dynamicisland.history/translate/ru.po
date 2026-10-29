@@ -371,8 +371,8 @@ msgstr "Zeitfenster für Duplikate:"
 msgid "Hide keywords:"
 msgstr "Auszublendende Schlüsselwörter:"
 
-msgid "Always show keywords:"
-msgstr "Immer anzeigen bei Schlüsselwörtern:"
+msgid "Protect keywords:"
+msgstr "Защищённые ключевые слова:"
 
-msgid "Critical notifications always pass. Keyword matches are case-insensitive; identical Telegram messages are merged only inside the selected time window."
-msgstr "Kritische Benachrichtigungen werden immer angezeigt. Schlüsselwörter ignorieren Groß-/Kleinschreibung; identische Telegram-Nachrichten werden nur innerhalb des Zeitfensters zusammengefasst."
+msgid "Protected keywords bypass Telegram keyword filtering and duplicate merging. Critical notifications always pass; global Do Not Disturb and the application blacklist still apply."
+msgstr "Защищённые слова обходят фильтрацию по ключевым словам и объединение повторов Telegram. Критические уведомления всегда проходят; общий режим «Не беспокоить» и чёрный список приложений продолжают действовать."
