@@ -369,3 +369,24 @@ msgstr ""
 
 msgid "Remove notification"
 msgstr ""
+
+msgid "Telegram smart filter"
+msgstr ""
+
+msgid "Enable smart filtering for Telegram"
+msgstr ""
+
+msgid "Merge repeated Telegram notifications"
+msgstr ""
+
+msgid "Duplicate window:"
+msgstr ""
+
+msgid "Hide keywords:"
+msgstr ""
+
+msgid "Always show keywords:"
+msgstr ""
+
+msgid "Critical notifications always pass. Keyword matches are case-insensitive; identical Telegram messages are merged only inside the selected time window."
+msgstr ""
