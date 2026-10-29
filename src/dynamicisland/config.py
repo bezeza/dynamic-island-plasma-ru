@@ -127,6 +127,16 @@ DEFAULTS: dict[str, Any] = {
     # desktop-entry / app-name values that are never shown.
     "blacklist": [],
     "doNotDisturb": False,
+    # Telegram-only smart filtering is opt-in to preserve existing behaviour.
+    "telegramSmartFilter": False,
+    # Case-insensitive substrings in a Telegram title/body to suppress.
+    "telegramFilterKeywords": [],
+    # Matching any of these keeps a Telegram notification visible and prevents
+    # it from being merged into a duplicate card. Critical urgency always passes.
+    "telegramImportantKeywords": [],
+    # Merge identical Telegram notifications within this many seconds.
+    "telegramDeduplicate": True,
+    "telegramDeduplicateSeconds": 30,
 }
 
 
