@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import os
 import time
+import uuid
 from typing import Any
 
 from PySide6.QtCore import QObject, Qt, Signal
@@ -63,14 +64,23 @@ class HistoryStore(QObject):
         except (OSError, ValueError) as error:
             print(f"[dynamic-island] ignoring broken history: {error}")
             return
+        migrated = False
         if isinstance(stored, list):
             self._entries = [item for item in stored if isinstance(item, dict)]
+            # Older history files predate entry IDs. Migrate them once so the
+            # applet can remove a single record without guessing by timestamp.
+            for entry in self._entries:
+                if not isinstance(entry.get("entryId"), str) or not entry.get("entryId"):
+                    entry["entryId"] = uuid.uuid4().hex
+                    migrated = True
         # Carry on numbering above whatever icon files are already there.
         for entry in self._entries:
             name = os.path.basename(str(entry.get("iconFile") or ""))
             stem = name.split(".", 1)[0]
             if stem.isdigit():
                 self._sequence = max(self._sequence, int(stem) + 1)
+        if migrated:
+            self.save()
 
     def save(self) -> None:
         os.makedirs(DATA_DIR, exist_ok=True)
@@ -92,6 +102,7 @@ class HistoryStore(QObject):
             return
         self.load()
         entry = {
+            "entryId": uuid.uuid4().hex,
             "appName": notification.app_name,
             "summary": notification.summary,
             "body": notification.body,
@@ -130,6 +141,22 @@ class HistoryStore(QObject):
         self._entries.clear()
         self.save()
         self.changed.emit()
+
+    def remove(self, entry_id: str) -> bool:
+        """Remove one persisted history entry by its stable identifier."""
+        entry_id = str(entry_id or "")
+        if not entry_id:
+            return False
+        self.load()
+        for index, entry in enumerate(self._entries):
+            if entry.get("entryId") != entry_id:
+                continue
+            self._drop_icon(entry)
+            del self._entries[index]
+            self.save()
+            self.changed.emit()
+            return True
+        return False
 
     # -- helpers ----------------------------------------------------------
     @staticmethod
