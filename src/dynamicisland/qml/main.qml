@@ -42,7 +42,7 @@ Window {
     Binding {
         target: Theme
         property: "mode"
-        value: Cfg.values.theme || "amoled"
+        value: Cfg.values.theme || "system"
     }
 
     Island {

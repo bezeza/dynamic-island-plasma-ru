@@ -215,7 +215,7 @@ KCM.SimpleKCM {
             Component.onCompleted: ready = true
 
             currentIndex: {
-                const wanted = island.value("theme", "amoled")
+                const wanted = island.value("theme", "system")
                 for (let index = 0; index < model.length; ++index) {
                     if (model[index].tag === wanted)
                         return index

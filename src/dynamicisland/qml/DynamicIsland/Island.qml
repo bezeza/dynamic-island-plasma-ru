@@ -26,8 +26,12 @@ Item {
     property bool surfaceNeeded: false
     property real dragOffset: 0
 
+    // Follow KDE's active accent when the user selects the system palette.
+    // Per-notification icon accents still take precedence when enabled.
     readonly property color accent: front && front.accent
-                                    ? front.accent : Cfg.values.fallbackAccent
+        ? front.accent
+        : (Cfg.values.theme === "system"
+           ? Theme.desktop.highlight : Cfg.values.fallbackAccent)
     readonly property bool wantsKeyboard: card.replying
 
     // -- geometry -------------------------------------------------------
