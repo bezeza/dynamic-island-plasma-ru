@@ -371,8 +371,8 @@ msgstr undefined
 msgid "Hide keywords:"
 msgstr undefined
 
-msgid "Always show keywords:"
-msgstr undefined
+msgid "Protect keywords:"
+msgstr "保护关键词："
 
-msgid "Critical notifications always pass. Keyword matches are case-insensitive; identical Telegram messages are merged only inside the selected time window."
-msgstr undefined
+msgid "Protected keywords bypass Telegram keyword filtering and duplicate merging. Critical notifications always pass; global Do Not Disturb and the application blacklist still apply."
+msgstr "受保护的关键词可绕过 Telegram 关键词过滤和重复合并。紧急通知始终显示；全局免打扰和应用黑名单仍然生效。"
