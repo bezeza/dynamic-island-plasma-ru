@@ -604,7 +604,7 @@ class IslandController(QObject):
                     existing = self._model.get(duplicate.notification_id)
                     if existing is not None:
                         duplicate_count = duplicate.count
-                        existing.summary = duplicate.base_summary
+                        existing.summary = f"{duplicate.base_summary} (×{duplicate_count})"
                         existing.hints = dict(existing.hints)
                         existing.hints["x-dynamic-island-repeat-count"] = duplicate_count
                         existing.body = body_text
