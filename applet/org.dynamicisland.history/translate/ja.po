@@ -340,3 +340,18 @@ msgstr ""
 
 msgid "…but not while the player's own window has the focus"
 msgstr ""
+
+msgid "Search notifications"
+msgstr "通知を検索"
+
+msgid "All applications"
+msgstr "すべてのアプリケーション"
+
+msgid "No matching notifications"
+msgstr "一致する通知はありません"
+
+msgid "Try a different search or application filter."
+msgstr "検索語句を変更するか、別のアプリケーションを選択してください。"
+
+msgid "Remove notification"
+msgstr "通知を削除"
