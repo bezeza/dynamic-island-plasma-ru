@@ -354,3 +354,18 @@ msgstr ""
 
 msgid "…but not while the player's own window has the focus"
 msgstr ""
+
+msgid "Search notifications"
+msgstr ""
+
+msgid "All applications"
+msgstr ""
+
+msgid "No matching notifications"
+msgstr ""
+
+msgid "Try a different search or application filter."
+msgstr ""
+
+msgid "Remove notification"
+msgstr ""

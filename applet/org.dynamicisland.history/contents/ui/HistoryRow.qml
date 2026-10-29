@@ -21,6 +21,7 @@ Item {
 
     /// Emitted on a click: the reader wants the application that sent this.
     signal activated()
+    signal removeRequested(string entryId)
 
     readonly property bool critical: model.urgency === 2
     readonly property color accent: critical
@@ -102,6 +103,18 @@ Item {
                 PlasmaExtras.DescriptiveLabel {
                     text: row.age(model.time, row.now)
                     font: Kirigami.Theme.smallFont
+                }
+
+                PC3.ToolButton {
+                    z: 2
+                    icon.name: "edit-delete"
+                    text: i18n("Remove notification")
+                    display: PC3.AbstractButton.IconOnly
+                    enabled: !!model.entryId
+                    onClicked: row.removeRequested(model.entryId || "")
+                    PC3.ToolTip.text: text
+                    PC3.ToolTip.visible: hovered
+                    PC3.ToolTip.delay: Kirigami.Units.toolTipDelay
                 }
             }
 

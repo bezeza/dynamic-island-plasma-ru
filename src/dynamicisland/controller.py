@@ -146,6 +146,7 @@ class IslandController(QObject):
         service.notify_handler = self._on_notify
         service.close_handler = self._on_close_requested
         service.clear_history_handler = self._history.clear
+        service.remove_history_handler = self._history.remove
         # The applet hands over whatever the history entry stored — a desktop
         # file, a desktop entry or a bare application name — so it goes in as
         # both halves of the lookup.

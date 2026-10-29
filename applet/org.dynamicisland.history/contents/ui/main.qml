@@ -32,6 +32,11 @@ PlasmoidItem {
     readonly property string readCommand: "cat " + root.quoted(root.historyPath)
 
     readonly property bool hasEntries: entries.count > 0
+    property string searchText: ""
+    property string selectedApp: ""
+    property var appNames: []
+    property int visibleCount: 0
+    readonly property var appOptions: [i18n("All applications")].concat(root.appNames)
 
     /// Seconds since the epoch, kept fresh so the rows can age their timestamps.
     property real now: 0
@@ -112,6 +117,36 @@ PlasmoidItem {
         return "'" + text.replace(/'/g, "'\\''") + "'"
     }
 
+    function matches(entry) {
+        if (!entry) return false
+        const app = String(entry.appName || "")
+        if (root.selectedApp && app !== root.selectedApp) return false
+        const needle = root.searchText.trim().toLocaleLowerCase()
+        if (!needle) return true
+        return [entry.summary, entry.body, entry.appName].some(value =>
+            String(value || "").toLocaleLowerCase().includes(needle))
+    }
+
+    function updateVisibleCount() {
+        let count = 0
+        for (let index = 0; index < entries.count; ++index) {
+            if (root.matches(entries.get(index))) ++count
+        }
+        root.visibleCount = count
+    }
+
+    function refreshFilters() {
+        const names = []
+        for (let index = 0; index < entries.count; ++index) {
+            const name = String(entries.get(index).appName || "")
+            if (name && names.indexOf(name) < 0) names.push(name)
+        }
+        names.sort((a, b) => a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase()))
+        root.appNames = names
+        if (root.selectedApp && names.indexOf(root.selectedApp) < 0) root.selectedApp = ""
+        root.updateVisibleCount()
+    }
+
     /* Rebuilding the model on every tick would throw away the scroll position
      * and re-run the delegate animations, so only touch what actually moved.
      * The list is newest first and only ever grows at the front. */
@@ -121,7 +156,7 @@ PlasmoidItem {
         }
         if (fresh.length === entries.count) {
             const top = fresh.length === 0 ? null : fresh[0]
-            if (top === null || top.time === entries.get(0).time) {
+            if (top === null || (top.time === entries.get(0).time && top.entryId === entries.get(0).entryId)) {
                 return
             }
         }
@@ -130,6 +165,7 @@ PlasmoidItem {
         }
         for (let index = 0; index < fresh.length; ++index) {
             const entry = {
+                entryId: fresh[index].entryId || "",
                 appName: fresh[index].appName || "",
                 summary: fresh[index].summary || "",
                 body: fresh[index].body || "",
@@ -148,6 +184,7 @@ PlasmoidItem {
                 entries.append(entry)
             }
         }
+        root.refreshFilters()
     }
 
     /* The island owns the little PNGs the entries point at, so it has to do the
@@ -170,6 +207,15 @@ PlasmoidItem {
             + " --dest org.freedesktop.Notifications"
             + " --object-path /org/freedesktop/Notifications"
             + " --method org.dynamicisland.Island.ClearHistory")
+    }
+
+    function removeHistoryEntry(entryId) {
+        if (!entryId) return
+        runner.connectSource("gdbus call --session"
+            + " --dest org.freedesktop.Notifications"
+            + " --object-path /org/freedesktop/Notifications"
+            + " --method org.dynamicisland.Island.RemoveHistoryEntry "
+            + root.quoted(entryId))
     }
 
     compactRepresentation: MouseArea {
@@ -215,27 +261,54 @@ PlasmoidItem {
         collapseMarginsHint: true
 
         header: PlasmaExtras.PlasmoidHeading {
-            RowLayout {
+            ColumnLayout {
                 anchors.fill: parent
                 spacing: Kirigami.Units.smallSpacing
 
-                PlasmaExtras.Heading {
-                    level: 1
-                    text: i18n("History")
+                RowLayout {
                     Layout.fillWidth: true
-                    elide: Text.ElideRight
+                    spacing: Kirigami.Units.smallSpacing
+                    PlasmaExtras.Heading {
+                        level: 1
+                        text: i18n("History")
+                        Layout.fillWidth: true
+                        elide: Text.ElideRight
+                    }
+                    PC3.ToolButton {
+                        icon.name: "edit-clear-history"
+                        text: i18n("Clear history")
+                        display: PC3.AbstractButton.IconOnly
+                        enabled: root.hasEntries
+                        onClicked: root.clearHistory()
+                        PC3.ToolTip.text: text
+                        PC3.ToolTip.visible: hovered
+                        PC3.ToolTip.delay: Kirigami.Units.toolTipDelay
+                    }
                 }
 
-                PC3.ToolButton {
-                    icon.name: "edit-clear-history"
-                    text: i18n("Clear history")
-                    display: PC3.AbstractButton.IconOnly
-                    enabled: root.hasEntries
-                    onClicked: root.clearHistory()
-
-                    PC3.ToolTip.text: text
-                    PC3.ToolTip.visible: hovered
-                    PC3.ToolTip.delay: Kirigami.Units.toolTipDelay
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Kirigami.Units.smallSpacing
+                    PC3.TextField {
+                        Layout.fillWidth: true
+                        placeholderText: i18n("Search notifications")
+                        clearButtonEnabled: true
+                        onTextChanged: {
+                            root.searchText = text
+                            root.updateVisibleCount()
+                        }
+                    }
+                    PC3.ComboBox {
+                        Layout.fillWidth: true
+                        Layout.preferredWidth: Kirigami.Units.gridUnit * 9
+                        model: root.appOptions
+                        currentIndex: root.selectedApp
+                            ? Math.max(0, root.appOptions.indexOf(root.selectedApp)) : 0
+                        onActivated: index => {
+                            root.selectedApp = index > 0 ? String(root.appOptions[index]) : ""
+                            root.updateVisibleCount()
+                        }
+                    }
                 }
             }
         }
@@ -254,6 +327,9 @@ PlasmoidItem {
                 delegate: HistoryRow {
                     width: list.width
                     now: root.now
+                    visible: root.matches(model)
+                    height: visible ? implicitHeight : 0
+                    onRemoveRequested: entryId => root.removeHistoryEntry(entryId)
                     /* A row that carried a link — a feed entry, a webhook —
                      * opens the page itself: there is no application behind
                      * "heise online" to look for a window of.  Everything
@@ -285,6 +361,15 @@ PlasmoidItem {
             iconName: "notifications"
             text: i18n("Nothing in the history")
             explanation: i18n("Notifications stay here after the island has taken them away.")
+        }
+
+        PlasmaExtras.PlaceholderMessage {
+            anchors.centerIn: parent
+            width: parent.width - Kirigami.Units.gridUnit * 4
+            visible: root.hasEntries && root.visibleCount === 0
+            iconName: "edit-find"
+            text: i18n("No matching notifications")
+            explanation: i18n("Try a different search or application filter.")
         }
     }
 }

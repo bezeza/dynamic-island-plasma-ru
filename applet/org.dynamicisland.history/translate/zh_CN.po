@@ -340,3 +340,18 @@ msgstr ""
 
 msgid "…but not while the player's own window has the focus"
 msgstr ""
+
+msgid "Search notifications"
+msgstr "搜索通知"
+
+msgid "All applications"
+msgstr "所有应用"
+
+msgid "No matching notifications"
+msgstr "没有匹配的通知"
+
+msgid "Try a different search or application filter."
+msgstr "请更改搜索词或选择其他应用。"
+
+msgid "Remove notification"
+msgstr "删除通知"
