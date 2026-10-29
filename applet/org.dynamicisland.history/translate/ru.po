@@ -340,3 +340,18 @@ msgstr "AMOLED — это настоящий чёрный: на OLED-экран�
 
 msgid "…but not while the player's own window has the focus"
 msgstr "…но не тогда, когда окно самого плеера активно"
+
+msgid "Search notifications"
+msgstr "Поиск уведомлений"
+
+msgid "All applications"
+msgstr "Все приложения"
+
+msgid "No matching notifications"
+msgstr "Уведомлений не найдено"
+
+msgid "Try a different search or application filter."
+msgstr "Измените запрос или выберите другое приложение."
+
+msgid "Remove notification"
+msgstr "Удалить уведомление"
