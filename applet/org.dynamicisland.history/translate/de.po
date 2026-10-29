@@ -339,3 +339,18 @@ msgstr "AMOLED ist echtes Schwarz — auf einem OLED-Panel sind diese Pixel dami
 
 msgid "…but not while the player's own window has the focus"
 msgstr "…aber nicht, solange das Fenster des Players selbst den Fokus hat"
+
+msgid "Search notifications"
+msgstr "Benachrichtigungen durchsuchen"
+
+msgid "All applications"
+msgstr "Alle Anwendungen"
+
+msgid "No matching notifications"
+msgstr "Keine passenden Benachrichtigungen"
+
+msgid "Try a different search or application filter."
+msgstr "Ändere die Suche oder wähle eine andere Anwendung."
+
+msgid "Remove notification"
+msgstr "Benachrichtigung entfernen"
