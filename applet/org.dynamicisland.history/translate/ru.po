@@ -355,3 +355,24 @@ msgstr "Измените запрос или выберите другое пр�
 
 msgid "Remove notification"
 msgstr "Удалить уведомление"
+
+msgid "Telegram smart filter"
+msgstr "Telegram-Smartfilter"
+
+msgid "Enable smart filtering for Telegram"
+msgstr "Intelligente Filterung für Telegram aktivieren"
+
+msgid "Merge repeated Telegram notifications"
+msgstr "Wiederholte Telegram-Benachrichtigungen zusammenfassen"
+
+msgid "Duplicate window:"
+msgstr "Zeitfenster für Duplikate:"
+
+msgid "Hide keywords:"
+msgstr "Auszublendende Schlüsselwörter:"
+
+msgid "Always show keywords:"
+msgstr "Immer anzeigen bei Schlüsselwörtern:"
+
+msgid "Critical notifications always pass. Keyword matches are case-insensitive; identical Telegram messages are merged only inside the selected time window."
+msgstr "Kritische Benachrichtigungen werden immer angezeigt. Schlüsselwörter ignorieren Groß-/Kleinschreibung; identische Telegram-Nachrichten werden nur innerhalb des Zeitfensters zusammengefasst."
