@@ -217,6 +217,13 @@ class _Adaptor(dbus.service.Object):
         if self._service.clear_history_handler is not None:
             self._service.clear_history_handler()
 
+    @dbus.service.method(ISLAND_INTERFACE, in_signature="s", out_signature="b")
+    def RemoveHistoryEntry(self, entry_id) -> bool:
+        """Remove one stored history record, returning whether it existed."""
+        if self._service.remove_history_handler is None:
+            return False
+        return bool(self._service.remove_history_handler(str(entry_id)))
+
     # -- properties -----------------------------------------------------
     @dbus.service.method(
         PROPERTIES_INTERFACE, in_signature="ss", out_signature="v"
@@ -266,6 +273,8 @@ class NotificationService(QObject):
     close_handler = None
     #: Called with no arguments when the panel applet empties the history
     clear_history_handler = None
+    #: Called with an entry ID when the panel applet removes one history row
+    remove_history_handler = None
     #: Called with a desktop entry or file when something asks to open an app
     open_handler = None
     #: Called with a desktop file that is to be started outright — see Start()
