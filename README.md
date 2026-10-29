@@ -99,10 +99,10 @@ Clockwise from the top left, and switchable while it runs
 
 | | |
 |---|---|
-| **AMOLED** | Real `#000000`, which is what the island was designed around: on an OLED panel those pixels are simply off. The default. |
+| **AMOLED** | Real `#000000`, which is what the island was designed around: on an OLED panel those pixels are simply off. Optional fixed style. |
 | **Dark** | A dark grey body, for panels where true black smears or blooms — and for anyone who finds a black hole in the screen too stark. |
 | **Light** | Dark type on white, for a light desktop where a black pill is a hole. |
-| **Follow the colour scheme** | Whatever Plasma's active scheme says. It reads the palette, so it changes with your scheme and needs no maintenance here. |
+| **Follow the colour scheme** | Default. Follows Plasma's active palette and accent colour, so light/dark schemes and accent changes are reflected without manual tuning. |
 
 All four are shown above on the same grey, because that is the only ground on
 which a black pill and a white one are both visible; on your desktop each sits
@@ -318,7 +318,7 @@ runtime; unknown keys are preserved.
 | `pauseOnHover` | `true` | Pointer on the island freezes the countdown |
 | `stackDepth` | `3` | How many cards stay visible behind the front one |
 | `dismissThreshold` | `26` | Swipe distance in px before it dismisses |
-| `theme` | `"amoled"` | `"amoled"`, `"dark"`, `"light"` or `"system"` — see above |
+| `theme` | `"system"` | `"system"` (default), `"amoled"`, `"dark"` or `"light"` — see above |
 | `accentFromIcon` | `true` | Derive the accent colour from the icon |
 | `fallbackAccent` | `"#0A84FF"` | Colour used when that fails |
 | `glowOpacity` | `0.55` | Strength of the coloured bloom, `0` turns it off |
