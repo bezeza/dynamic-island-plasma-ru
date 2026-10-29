@@ -64,7 +64,7 @@ scene graph, not out of a drawing program — see `tools/make-media.py`.
 | <img src="docs/screenshots/island-media.png" alt="A track with its cover and previous, play and next buttons" width="380"> | **What is playing.** A track change brings up its cover, title and artist, and the buttons to steer it. The accent comes from the cover. |
 | <img src="docs/screenshots/island-feed.png" alt="A heise online headline in the island, with the site's own icon" width="380"> | **Feeds.** An RSS or Atom feed becomes cards, wearing the feed's own icon — and never replaying what was published while the machine was off. |
 | <img src="docs/screenshots/island-webhook.png" alt="A card that arrived over HTTP, with a progress bar" width="380"> | **Webhooks.** Anything on your network that can fetch a URL can put a card up, with buttons, a progress bar and an icon. |
-| <img src="docs/screenshots/history-applet.png" alt="The history applet listing four past notifications" width="380"> | **History in the panel.** The pill is short-lived, so a panel applet keeps the last hundred — and a click on a row opens what sent it. |
+| <img src="docs/screenshots/history-applet.png" alt="The history applet listing four past notifications" width="380"> | **Searchable history.** Find past notifications by text or application, open the source, and remove one entry without clearing everything. The last hundred stay available across restarts. |
 
 <details>
 <summary><b>The same things, moving</b></summary>
@@ -720,8 +720,8 @@ and a panel in them.
 
 * Wayland only. There is no layer shell on X11; the window would come up as an
   ordinary one, in the wrong place.
-* The history is a read-only list. Actions and replies are gone once the card
-  is.
+* History supports search, app filtering and per-entry removal. Notification
+  actions and inline replies are not retained after a card disappears.
 * Plasma's own notification widget sees nothing while the island is running —
   that is what the history applet is for.
 * Sources are polled and pushed to; there is no button that calls an endpoint
