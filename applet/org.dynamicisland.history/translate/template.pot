@@ -385,8 +385,8 @@ msgstr ""
 msgid "Hide keywords:"
 msgstr ""
 
-msgid "Always show keywords:"
+msgid "Protect keywords:"
 msgstr ""
 
-msgid "Critical notifications always pass. Keyword matches are case-insensitive; identical Telegram messages are merged only inside the selected time window."
+msgid "Protected keywords bypass Telegram keyword filtering and duplicate merging. Critical notifications always pass; global Do Not Disturb and the application blacklist still apply."
 msgstr ""
