@@ -843,6 +843,27 @@ def test_history_link() -> None:
         and entries[1].get("url") == "https://example.com/article"
         and entries[0].get("url") == "",
     )
+    identifiers = [entry.get("entryId") for entry in entries]
+    check(
+        "history entries have unique stable IDs",
+        len(identifiers) == 2
+        and all(isinstance(identifier, str) and identifier for identifier in identifiers)
+        and len(set(identifiers)) == 2,
+    )
+    removed_id = entries[0].get("entryId")
+    check(
+        "a single history entry can be removed",
+        bool(removed_id)
+        and store.remove(removed_id)
+        and len(store.entries()) == 1
+        and store.entries()[0].get("summary") == "Article",
+    )
+    reloaded = history_module.HistoryStore(10)
+    check(
+        "history entry removal persists to disk",
+        len(reloaded.entries()) == 1
+        and reloaded.entries()[0].get("summary") == "Article",
+    )
     _ = application
 
 
