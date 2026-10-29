@@ -65,7 +65,7 @@ DEFAULTS: dict[str, Any] = {
     #   "dark"    a dark grey body, for panels where black smears or blooms
     #   "light"   dark type on white
     #   "system"  the desktop's own colour scheme
-    "theme": "amoled",
+    "theme": "system",
     # Derive the accent glow from the notification icon/image.
     "accentFromIcon": True,
     "fallbackAccent": "#0A84FF",
